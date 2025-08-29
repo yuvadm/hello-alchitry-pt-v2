@@ -48,9 +48,9 @@ This will:
 To build without programming:
 ```bash
 uv run python -c "
-from platform_alchitry_pt import AlchitryPtPlatform
+from platform_alchitry_pt_v2 import AlchitryPtV2Platform
 from blinky import Blinky
-platform = AlchitryPtPlatform()
+platform = AlchitryPtV2Platform()
 platform.build(Blinky(), do_program=False)
 "
 ```
@@ -58,7 +58,7 @@ platform.build(Blinky(), do_program=False)
 ## Files
 
 - `blinky.py` - Main blinky example that blinks LED 0
-- `platform_alchitry_pt.py` - Alchitry Pt V2 platform definition with official pin mappings
+- `platform_alchitry_pt_v2.py` - Alchitry Pt V2 platform definition with official pin mappings
 - `pyproject.toml` - Project dependencies
 - `99-alchitry-xilinx.rules` - udev rules for USB programming access
 
