@@ -435,28 +435,29 @@ class AlchitryPtV2Platform(XilinxPlatform):
             raise ValueError(f"Unknown revision '{revision}', expected 'v2' or 'alpha'")
         super().__init__(**kwargs)
 
-    def toolchain_program(self, products, name):
-        # Assumes Vivado is in the system's PATH
-        vivado_path = "vivado"
-        build_dir = products.get_dir()
-
+    def toolchain_program(self, products, name, **kwargs):
         with products.extract(f"{name}.bit") as bitstream_filename:
-            tcl_script = os.path.join(build_dir, "program.tcl")
-            with open(tcl_script, "w") as f:
-                f.write(f"""
-# Vivado Tcl script for programming the Alchitry Pt
+            # Create TCL script for programming
+            tcl_content = f"""
 open_hw_manager
-connect_hw_server -quiet
+connect_hw_server
 open_hw_target
+set_property PROGRAM.FILE {{{bitstream_filename}}} [get_hw_devices xc7a100t_0]
+set_property PROBES.FILE {{}} [get_hw_devices xc7a100t_0]
+set_property FULL_PROBES.FILE {{}} [get_hw_devices xc7a100t_0]
 current_hw_device [get_hw_devices xc7a100t_0]
-set_property PROGRAM.FILE {{{os.path.abspath(bitstream_filename)}}} [current_hw_device]
-program_hw_devices [current_hw_device]
-close_hw_target
-close_hw_server
-""")
-            subprocess.check_call(
-                [vivado_path, "-mode", "batch", "-source", tcl_script]
-            )
+program_hw_devices [get_hw_devices xc7a100t_0]
+close_hw_manager
+exit
+"""
+            tcl_script = "program_fpga.tcl"
+            tcl_full_path = os.path.join("build", tcl_script)
+            with open(tcl_full_path, "w") as f:
+                f.write(tcl_content)
+            
+            # Run vivado to program the FPGA
+            subprocess.run(["vivado", "-mode", "batch", "-source", tcl_script], 
+                         cwd="build", check=True)
 
 
 if __name__ == "__main__":
