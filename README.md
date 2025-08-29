@@ -1,13 +1,13 @@
-# Hello Alchitry Pt v2
+# Hello Alchitry Pt V2
 
-A basic Amaranth HDL blinky example for the Alchitry Pt v2 development board with XC7A100T-2FGG484I FPGA.
+A basic Amaranth HDL blinky example for the Alchitry Pt V2 development board with XC7A100T-2FGG484I FPGA.
 
 ## Requirements
 
 - Python 3.13+
 - uv package manager
 - Xilinx Vivado (with `vivado` command in PATH)
-- Alchitry Pt v2 board connected via USB
+- Alchitry Pt V2 board connected via USB
 
 ## Setup
 
@@ -58,7 +58,7 @@ platform.build(Blinky(), do_program=False)
 ## Files
 
 - `blinky.py` - Main blinky example that blinks LED 0
-- `platform_alchitry_pt.py` - Alchitry Pt v2 platform definition with official pin mappings
+- `platform_alchitry_pt.py` - Alchitry Pt V2 platform definition with official pin mappings
 - `pyproject.toml` - Project dependencies
 - `99-alchitry-xilinx.rules` - udev rules for USB programming access
 

@@ -1,4 +1,4 @@
-# Alchitry Pt v2 and Xilinx programming cables udev rules
+# Alchitry Pt V2 and Xilinx programming cables udev rules
 # Install to /etc/udev/rules.d/ and run: sudo udevadm control --reload-rules && sudo udevadm trigger
 
 # FTDI FT2232 (used by Alchitry boards)
