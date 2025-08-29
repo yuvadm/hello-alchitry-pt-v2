@@ -1,0 +1,7 @@
+open_hw_manager
+connect_hw_server
+open_hw_target
+get_hw_targets
+get_hw_devices
+close_hw_manager
+exit

@@ -74,6 +74,8 @@ class AlchitryPtPlatform(XilinxPlatform):
         import subprocess
         import os
         
+        vivado_path = os.path.expanduser("~/Xilinx/2025.1/Vivado/bin/vivado")
+        
         with products.extract("{}.bit".format(name)) as bitstream_filename:
             # Create TCL script for programming
             tcl_content = f"""
@@ -88,10 +90,11 @@ program_hw_devices [get_hw_devices xc7a100t_0]
 close_hw_manager
 exit
 """
-            tcl_script = os.path.join("build", "program_fpga.tcl")
-            with open(tcl_script, "w") as f:
+            tcl_script = "program_fpga.tcl"
+            tcl_full_path = os.path.join("build", tcl_script)
+            with open(tcl_full_path, "w") as f:
                 f.write(tcl_content)
             
             # Run vivado to program the FPGA
-            subprocess.run(["vivado", "-mode", "batch", "-source", tcl_script], 
+            subprocess.run([vivado_path, "-mode", "batch", "-source", tcl_script], 
                          cwd="build", check=True)
