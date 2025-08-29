@@ -1,7 +1,25 @@
-.venv/
+# Build artifacts
 build/
+.Xil/
 
-__pycache__
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
 
-*.log
+# Vivado
 *.jou
+*.log
+*.str
+vivado*.backup.*
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.srcs/
+
+# Temporary files
+*.tmp
+*.temp

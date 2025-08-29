@@ -4,22 +4,29 @@ A basic Amaranth HDL blinky example for the Alchitry Pt v2 development board wit
 
 ## Requirements
 
-- Python 3.12+
+- Python 3.13+
 - uv package manager
-- Xilinx Vivado 2025.1 (installed at `~/Xilinx/2025.1/Vivado/`)
+- Xilinx Vivado (with `vivado` command in PATH)
 - Alchitry Pt v2 board connected via USB
 
 ## Setup
 
-1. Install dependencies:
-```bash
-uv sync
-```
+1. **Install Python dependencies:**
+   ```bash
+   uv sync
+   ```
 
-2. Set up Vivado environment (add to your shell profile):
-```bash
-export PATH="$HOME/Xilinx/2025.1/Vivado/bin:$PATH"
-```
+2. **Install udev rules for USB access:**
+   ```bash
+   sudo cp 99-alchitry-xilinx.rules /etc/udev/rules.d/
+   sudo udevadm control --reload-rules
+   sudo udevadm trigger
+   ```
+
+3. **Ensure Vivado is in PATH:**
+   ```bash
+   export PATH="/path/to/vivado/bin:$PATH"
+   ```
 
 ## Usage
 
@@ -48,26 +55,19 @@ platform.build(Blinky(), do_program=False)
 "
 ```
 
-### Manual Programming
-
-If you need to program manually after building:
-```bash
-cd build
-vivado -mode batch -source program_fpga.tcl
-```
-
 ## Files
 
 - `blinky.py` - Main blinky example that blinks LED 0
-- `platform_alchitry_pt.py` - Alchitry Pt v2 platform definition with pin mappings
-- `pyproject.toml` - Project dependencies (Amaranth HDL)
+- `platform_alchitry_pt.py` - Alchitry Pt v2 platform definition with official pin mappings
+- `pyproject.toml` - Project dependencies
+- `99-alchitry-xilinx.rules` - udev rules for USB programming access
 
 ## Hardware Details
 
 - **FPGA**: XC7A100T-2FGG484I (Artix-7, 484-pin BGA, speed grade -2)
-- **Clock**: 100 MHz oscillator on pin N14
-- **LEDs**: 8 LEDs (pins K13, K16, L15, L14, M16, M14, M12, N16)
-- **Reset**: Active-low reset button on pin P6
-- **IO**: 48 general purpose IO pins available
+- **Clock**: 100 MHz oscillator on pin W19
+- **LEDs**: 8 LEDs (pins P19, P20, T21, R19, V22, U21, T20, W20)
+- **Reset**: Active-low reset button on pin N15
+- **IO**: 32 general purpose IO pins from A/B/C banks
 
-The example uses a 24-bit counter clocked at 100 MHz, with the MSB driving LED 0 for a blink rate of approximately 12 Hz.
+Pin mappings are sourced from official Alchitry Labs V2 hardware definitions.
